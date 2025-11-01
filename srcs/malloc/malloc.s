@@ -107,9 +107,8 @@ ft_malloc:
 	je		.allocate_next
 
 
-
-
 	jmp		.g_global_exit
+
 .allocate_next:
 	mov		qword [rsi + t_zone.next], rax
 	mov		rsi, [rsi + t_zone.next]
@@ -123,7 +122,7 @@ ft_malloc:
 	lea		rsi, [rel g_global]
 	mov		rsi, [rsi]
 
-.loop_find_zone
+.loop_find_zone:
 	mov		rax, [rsi + t_zone.size]
 	cmp		rax, rcx
 	je		.found
