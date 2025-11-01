@@ -3,16 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zerrino <zerrino@student.42.fr>            +#+  +:+       +#+         #
+#    By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/03 12:08:43 by alexafer          #+#    #+#              #
-#    Updated: 2025/10/30 21:06:50 by zerrino          ###   ########.fr        #
+#    Updated: 2025/10/31 11:11:16 by alexafer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC          := cc
 CFLAGS      := -Wall -Wextra -Werror -fPIC
 SHARED      := -shared
+
+NASM		:= nasm
+NFLAGS		:= -felf64
 
 ifeq ($(shell uname -s),Darwin)
 	SHARED := -dynamiclib
@@ -26,23 +29,17 @@ NAME        := libft_malloc_$(HOSTTYPE).so
 SYMLINK     := libft_malloc.so
 LIBFT_DIR   := libft
 LIBFT       := $(LIBFT_DIR)/libft.a
-LIBASM_DIR	:= libasm
 SRC_DIR		:= srcs
 INC_DIR		:= includes
 OBJ_DIR		:= .objs
 
-SRCS        := \
-    	malloc.c \
-    	free.c \
-    	realloc.c \
-    	show_alloc_mem.c \
-		wrappers.c \
+SRCS		:= $(shell find $(SRC_DIR) -type f -name '*.s')
 
 #$(addprefix $(SRC_DIR)/, $(SRCS:.c=.o))
-OBJS		:= $(SRCS:.c=.o)
-SRCS		:=  $(addprefix $(SRC_DIR)/, $(SRCS))
+#OBJS		:= $(SRCS:.c=.o)
+#SRCS		:=  $(addprefix $(SRC_DIR)/, $(SRCS))
 
-OBJS		:= $(addprefix $(OBJ_DIR)/, $(OBJS))
+OBJS		:= $(SRCS:%=$(OBJ_DIR)/%.o)
 
 DEPS		:= $(OBJS:.o=.d)
 
@@ -57,9 +54,9 @@ $(SYMLINK): $(NAME)
 
 -include $(DEPS)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -MMD -MP -c -I./$(INC_DIR) $< -o $@
+$(OBJ_DIR)/%.s.o: %.s
+	@mkdir -p $(dir $@)
+	$(NASM) $(NFLAGS) $< -o $@
 
 
 $(LIBFT):
