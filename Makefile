@@ -6,7 +6,7 @@
 #    By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/03 12:08:43 by alexafer          #+#    #+#              #
-#    Updated: 2025/10/31 11:11:16 by alexafer         ###   ########.fr        #
+#    Updated: 2025/11/01 11:33:19 by alexafer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ $(LIBFT):
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
-	rm -f $(OBJS) $(DEPS)
+	rm -rf $(OBJ_DIR)
 
 mclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean

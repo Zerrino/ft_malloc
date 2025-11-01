@@ -6,7 +6,7 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:35:46 by alexafer          #+#    #+#             */
-/*   Updated: 2025/10/30 15:05:52 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/01 15:02:05 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,18 @@
 # define m		0x4000
 # define M		0x80
 
+# define x 0b10000000
+
 typedef struct s_block
 {
-	struct s_block	*next;
 	uint64_t		size;
+	struct s_block	*next;
 } t_block;
 
 typedef struct s_zone
 {
-	struct s_zone	*next;
 	uint64_t		size;
+	struct s_block	*next;
 }	t_zone;
 
 

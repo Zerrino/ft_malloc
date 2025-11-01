@@ -42,13 +42,13 @@
 
 
 struc t_zone
-	.next resq 1
 	.size resq 1
+	.next resq 1
 endstruc
 
 struc t_block
-	.next resq 1
 	.size resq 1
+	.next resq 1
 endstruc
 
 ;typedef struct s_zone
