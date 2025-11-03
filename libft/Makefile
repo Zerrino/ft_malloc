@@ -6,13 +6,13 @@
 #    By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/23 16:07:48 by alexafer          #+#    #+#              #
-#    Updated: 2025/10/13 14:54:30 by alexafer         ###   ########.fr        #
+#    Updated: 2025/11/03 16:24:29 by alexafer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fPIC
 SRC_DIR = .
 INC_DIR = .
 SRCS =  ft_striteri.c ft_strmapi.c ft_itoa.c ft_split.c \

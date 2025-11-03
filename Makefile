@@ -6,7 +6,7 @@
 #    By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/03 12:08:43 by alexafer          #+#    #+#              #
-#    Updated: 2025/11/01 11:33:19 by alexafer         ###   ########.fr        #
+#    Updated: 2025/11/03 16:13:58 by alexafer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ INC_DIR		:= includes
 OBJ_DIR		:= .objs
 
 SRCS		:= $(shell find $(SRC_DIR) -type f -name '*.s')
+SRCS		+= $(shell find $(SRC_DIR) -type f -name '*.c')
 
 #$(addprefix $(SRC_DIR)/, $(SRCS:.c=.o))
 #OBJS		:= $(SRCS:.c=.o)
@@ -58,6 +59,9 @@ $(OBJ_DIR)/%.s.o: %.s
 	@mkdir -p $(dir $@)
 	$(NASM) $(NFLAGS) $< -o $@
 
+$(OBJ_DIR)/%.c.o: %.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -I./$(INC_DIR) -c $< -o $@
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR) all

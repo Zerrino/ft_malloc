@@ -4,10 +4,11 @@ default rel
 %include "includes/malloc.inc"
 
 section .bss
+	global	g_global
 	g_global: resq 1
 
 section .text
-        global	ft_malloc
+		global	ft_malloc
 
 ; void	*(*ft_malloc)(size_t size)
 ;	rdi
@@ -95,7 +96,7 @@ ft_malloc:
 
 	mov		[rsi], rax ; je met son addresse
 	mov		rsi, [rsi]
-
+	mov		qword [rsi + t_zone.flag], 1
 
 	jmp		.continue
 .g_global_exit:
@@ -115,8 +116,16 @@ ft_malloc:
 
 .continue:
 
+
 	mov		qword [rsi + t_zone.size], rcx
 	mov		qword [rsi + t_zone.next], 0
+
+	mov		rax, rcx
+	shl		rax, 8
+	add		rax, rsi
+	mov		qword [rsi + t_zone.numb], rax
+
+
 
 .not_empty:
 	lea		rsi, [rel g_global]
@@ -131,8 +140,36 @@ ft_malloc:
 	je		.allocate_zone
 	mov		rsi, rax
 	jmp		.loop_find_zone
-
 .found:
+
+	; On devrait essayer de choper la zone
+	add		rsi, t_zone.block
+	;mov		qword [rsi + t_block.size], rdi
+	; donc rsi = t_block[0]
+
+.loop_find_block:
+	mov		rax, [rsi + t_block.size]
+	test	rax, rax
+	je		.block_found
+
+
+	mov		rsi, [rsi + t_block.next]
+	jmp		.loop_find_block
+
+
+
+
+
+
+.block_found:
+
+	mov		qword [rsi + t_block.size], rdi
+	mov		rax, rsi
+	add		rax, 16
+	add		rax, rdi
+	mov		qword [rsi + t_block.next], rax
+
+
 
 	lea		rax, [rel g_global]
 	mov		rax, [rax]

@@ -6,7 +6,7 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:35:46 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/01 15:02:05 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:20:23 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,15 @@ typedef struct s_block
 typedef struct s_zone
 {
 	uint64_t		size;
-	struct s_block	*next;
+	struct s_zone	*next;
+	void			*numb;
+	uint64_t		flag;
 }	t_zone;
 
 
 
 extern pthread_mutex_t g_lock;
-extern t_block	*g_block;
+extern t_zone	*g_global;
 
 void	ft_free(void *ptr);
 
