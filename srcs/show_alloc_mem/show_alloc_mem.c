@@ -6,7 +6,7 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 16:12:08 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/03 16:51:20 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:52:50 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	show_alloc_mem(void)
 	int		i;
 	int		j;
 
-	ft_putstr_fd(REDB "SHOW MEMORY:" CRESET "\n", 1);
+	ft_putstr_fd(UGRN REDB "SHOW MEMORY:" CRESET "\n", 1);
 	i = 0;
 	zone = g_global;
 	while (zone)
