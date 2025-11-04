@@ -6,7 +6,7 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:35:46 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/03 16:29:42 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/04 12:30:34 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 # include <stdint.h>
 # include <pthread.h>
 
-# define n		0x400
-# define N		0x80
-# define m		0x4000
-# define M		0x80
+# define TINY_SIZE		0x400
+# define SMALL_SIZE		0x4000
+# define TINY_NUMBER	0x80
+# define SMALL_NUMBER	0x80
 
 # define x 0b10000000
 

@@ -73,7 +73,7 @@ ft_malloc:
 	mov		rax, SYS_mmap
 	mov		rdi, 0
 	mov		rsi, rcx
-	shl		rsi, 8
+	shl		rsi, 7
 	mov		rdx, PROT_READ | PROT_WRITE
 	mov		r10, MAP_PRIVATE | MAP_ANONYMOUS
 	mov		r8, -1
@@ -121,7 +121,7 @@ ft_malloc:
 	mov		qword [rsi + t_zone.next], 0
 
 	mov		rax, rcx
-	shl		rax, 8
+	shl		rax, 7
 	add		rax, rsi
 	mov		qword [rsi + t_zone.numb], rax
 
