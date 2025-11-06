@@ -6,7 +6,7 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 16:12:08 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/04 12:44:31 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:33:59 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ static int	calculate_block(t_zone *zone, t_block *block, t_block *l_block)
 	max_size = (size_t)zone + (SMALL_SIZE * SMALL_NUMBER);
 	if (block->size <= 1024)
 		max_size = (size_t)zone + (TINY_SIZE * TINY_NUMBER);
-	printf("max_size : %zx\n", max_size);
-	printf("size_atm : %lx\n", (size_t)block + block->size + sizeof(t_block));
-	if (max_size < (size_t)block + block->size + sizeof(t_block))
+	if (max_size < (size_t)block + block->size + sizeof(t_block) + sizeof(t_block))
 		return (0);
 	alignment = 2 * sizeof(size_t);
 	if ((((unsigned long) (block)) % alignment) != 0)
@@ -61,8 +59,12 @@ void	show_alloc_mem(void)
 		ft_putnbr_fd(i, 1);
 		ft_putstr_fd(". Zone : ",1);
 		ft_putnbr_fd(zone->size, 1);
+		ft_putstr_fd(" | ",1);
+		ft_putnbr_fd(zone->flag, 1);
 		ft_putstr_fd("\t - 0x",1);
 		ft_printnbr_base((size_t)zone, 16);
+		ft_putstr_fd(" - 0x",1);
+		ft_printnbr_base((size_t)zone->numb, 16);
 		ft_putstr_fd("\n",1);
 		l_block = 0;
 		block = (t_block *)(zone + 1);

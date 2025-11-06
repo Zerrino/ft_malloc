@@ -5,7 +5,14 @@ default rel
 
 section .bss
 	global	g_global
+	extern	puts
 	g_global: resq 1
+
+section .data
+
+	msg: db 'bonjour', 0
+	msg2: db 'test', 0
+	msg3: db 'coucou', 0
 
 section .text
 		global	ft_malloc
@@ -32,6 +39,7 @@ ft_small:
 
 
 ft_malloc:
+
 	xor		rax, rax
 	test	rdi, rdi
 	jz		.end
@@ -61,12 +69,18 @@ ft_malloc:
 	shl		rcx, 10
 	; --- RCX = 16384 ou RCX = 1024 ---
 
+
+
 	lea		rax, [rel g_global]
 	mov		rax, [rax]
 	test	rax, rax
 	jne		.not_empty
 
 .allocate_zone:
+
+
+
+
 	push	rdi
 	push	rcx
 
@@ -88,6 +102,8 @@ ft_malloc:
 
 
 
+
+
 	lea		rsi, [rel g_global] ; addresse de global
 
 	mov		rdx, [rsi]
@@ -101,16 +117,23 @@ ft_malloc:
 	jmp		.continue
 .g_global_exit:
 
-	mov		rsi, [rsi]
 
+
+	mov		rsi, [rsi]
 	mov		rdx, [rsi + t_zone.next]
+
+
+
 	test	rdx, rdx
 	je		.allocate_next
-
+	add		rsi, t_zone.next
 
 	jmp		.g_global_exit
 
 .allocate_next:
+
+
+
 	mov		qword [rsi + t_zone.next], rax
 	mov		rsi, [rsi + t_zone.next]
 
@@ -128,32 +151,66 @@ ft_malloc:
 
 
 .not_empty:
+
 	lea		rsi, [rel g_global]
 	mov		rsi, [rsi]
 
 .loop_find_zone:
+
+
+
+	mov		rax, [rsi + t_zone.flag]
+	and		rax, 2
+	jne		.skip_zone
+
+
 	mov		rax, [rsi + t_zone.size]
 	cmp		rax, rcx
 	je		.found
+
+
+.skip_zone:
 	mov		rax, [rsi + t_zone.next]
 	test	rax, rax
+
 	je		.allocate_zone
+
 	mov		rsi, rax
 	jmp		.loop_find_zone
+
+
 .found:
 
 	; On devrait essayer de choper la zone
+	mov		rdx, rsi
 	add		rsi, t_zone.block
 	;mov		qword [rsi + t_block.size], rdi
 	; donc rsi = t_block[0]
 
+
 .loop_find_block:
+
+; ICI je devrais checker la taille.
+
+
+
+	mov		rax, [rdx + t_zone.numb]
+	sub		rax, 32
+	sub		rax, rdi
+	sub		rax, rsi
+	jnb		.block_not_full	; donc ce check fonctionne il semblerait
+
+	or byte [rdx + t_zone.flag], 0x2
+	jmp		.loop_find_zone
+
+.block_not_full:
 	mov		rax, [rsi + t_block.size]
 	test	rax, rax
 	je		.block_found
 
 
 	mov		rsi, [rsi + t_block.next]
+
 	jmp		.loop_find_block
 
 
