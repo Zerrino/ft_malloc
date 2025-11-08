@@ -6,7 +6,7 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:35:46 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/06 13:34:37 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/07 15:05:06 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 # define x 0b10000000
 
-
+# define PRINT_BLOCK 1
 
 //Regular text
 #define BLK "\e[0;30m"

@@ -1,8 +1,8 @@
 bits 64
 default rel
 
-section	.data
-	buffer:     times 256 db 0
+section .bss
+	buffer:		resb 256
 
 section .text
         global	ft_atoi_base

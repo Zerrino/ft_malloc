@@ -112,7 +112,7 @@ ft_malloc:
 
 	mov		[rsi], rax ; je met son addresse
 	mov		rsi, [rsi]
-	mov		qword [rsi + t_zone.flag], 1
+	or		qword [rsi + t_zone.flag], 1
 
 	jmp		.continue
 .g_global_exit:
@@ -183,6 +183,17 @@ ft_malloc:
 
 	; On devrait essayer de choper la zone
 	mov		rdx, rsi
+
+	mov		rax, [rsi + t_zone.flag]
+	cmp		rax, 0xf
+	jbe		.first_block
+
+
+	and		rax, -16
+	mov		rsi, rax
+
+	jmp		.loop_find_block
+.first_block:
 	add		rsi, t_zone.block
 	;mov		qword [rsi + t_block.size], rdi
 	; donc rsi = t_block[0]
@@ -193,24 +204,15 @@ ft_malloc:
 ; ICI je devrais checker la taille.
 
 
-
-	mov		rax, [rdx + t_zone.numb]
-	sub		rax, 32
-	sub		rax, rdi
-	sub		rax, rsi
-	jnb		.block_not_full	; donc ce check fonctionne il semblerait
-
-	or byte [rdx + t_zone.flag], 0x2
-	jmp		.loop_find_zone
-
 .block_not_full:
+
+
 	mov		rax, [rsi + t_block.size]
 	test	rax, rax
 	je		.block_found
 
 
 	mov		rsi, [rsi + t_block.next]
-
 	jmp		.loop_find_block
 
 
@@ -220,12 +222,26 @@ ft_malloc:
 
 .block_found:
 
+	mov		rax, [rdx + t_zone.numb]
+	sub		rax, 32
+	sub		rax, rdi
+	sub		rax, rsi
+	jnb		.block_valid	; donc ce check fonctionne il semblerait
+
+	or byte [rdx + t_zone.flag], 0x2
+	jmp		.loop_find_zone
+
+.block_valid:
+
+
 	mov		qword [rsi + t_block.size], rdi
 	mov		rax, rsi
 	add		rax, 16
 	add		rax, rdi
 	mov		qword [rsi + t_block.next], rax
 
+	and		qword [rdx + t_zone.flag], 0xf
+	or		[rdx + t_zone.flag], rax
 
 
 	lea		rax, [rel g_global]
