@@ -47,16 +47,22 @@ ft_malloc:
 
 	; CHECKER SI SUPERIEUR A SMALL BLOCK
 
+
+
 	; --- ALIGNEMENT ---
-	mov		rax, rdi
-	dec		rax
-	bsr		rcx, rdi
-	test	rax, rdi
-	setnz	dil
-	movzx	rdi, dil
-	inc		rdi
-	shl		rdi, cl
+	;mov		rax, rdi
+	;dec		rax
+	;bsr		rcx, rdi
+	;test	rax, rdi
+	;setnz	dil
+	;movzx	rdi, dil
+	;inc		rdi
+	;shl		rdi, cl
 	; --- ALIGNE --- CL STILL NUMBER
+
+	add		rdi, 15
+	and		rdi, -16
+
 
 	; --- RCX = 16384 ou RCX = 1024 ---
 	mov		rcx, rdi

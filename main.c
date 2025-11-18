@@ -17,12 +17,12 @@ int	main()
 	i = 0;
 	while (i < 100000)
 	{
-		addr = ft_malloc(16);
+		addr = ft_malloc(231);
 		i++;
 	}
-	//test = ft_malloc(1800);
-	//printf("addr %p s\n", addr);
-	//essaie = (t_block *)(test+1);
-	//show_alloc_mem();
+	test = ft_malloc(1800);
+	printf("addr %p s\n", addr);
+	essaie = (t_block *)(test+1);
+	show_alloc_mem();
 	return 0;
 }
