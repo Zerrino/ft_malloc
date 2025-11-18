@@ -195,11 +195,25 @@ ft_malloc:
 .block_not_full:
 
 
+
+	mov		rax, [rsi + t_block.next]
+	test	rax, rax
+	je		.empty_next
+	sub		rax, rsi
+
+	cmp		rdi, rax
+	jae		.skip_block
+
+
+
+.empty_next:
 	mov		rax, [rsi + t_block.size]
 	test	rax, rax
 	je		.block_found
+	jmp		.no_skip_block
+.skip_block:
 
-
+.no_skip_block:
 	mov		rsi, [rsi + t_block.next]
 	jmp		.loop_find_block
 
@@ -223,15 +237,23 @@ ft_malloc:
 
 
 	mov		qword [rsi + t_block.size], rdi
+	mov		r8, [rsi + t_block.next]
+
+
 	mov		rax, rsi
 	add		rax, 16
 	add		rax, rdi
+
 	mov		qword [rsi + t_block.next], rax
 
 	and		qword [rdx + t_zone.flag], 0xf
 	or		[rdx + t_zone.flag], rax
 
-
+	mov		r9, [rsi + t_block.next]
+	cmp		r9, r8
+	je		.skip_bla
+	mov		[r9 + t_block.next], r8
+.skip_bla:
 	mov		rax, rsi	; renvoie la bonne addresse.
 .end:
 	ret

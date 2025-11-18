@@ -22,6 +22,9 @@ int	main()
 		i++;
 	}
 	ft_free(addr[3]);
+	show_alloc_mem();
+	ft_malloc(241);
+
 	essaie = (t_block *)(test+1);
 	show_alloc_mem();
 	return 0;

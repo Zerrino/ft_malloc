@@ -6,7 +6,7 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 13:16:35 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/18 13:42:15 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/18 16:17:38 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,17 @@ void 	ft_free(void *ptr)
 			break ;
 		zone = zone->next;
 	}
+	if (!zone)
+		return ;
 	block = (t_block *)(zone + 1);
 	while (block && (size_t)block != (size_t)ptr)
 	{
 		block = block->next;
 	}
+	if (!block)
+		return ;
+	zone->flag = (size_t)block | (zone->flag & 0xf);
+	block->size = 0;
 	printf("Zone  : %p\n", zone);
 	printf("Block : %p\n", block);
 }
