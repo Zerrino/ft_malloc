@@ -6,7 +6,7 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 16:12:08 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/18 12:45:01 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/18 13:06:05 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	show_alloc_mem(void)
 		ft_putstr_fd(". Zone : ",1);
 		ft_putnbr_fd(zone->size, 1);
 		ft_putstr_fd(" | 0x",1);
-		ft_printnbr_base(zone->flag, 16);
+		ft_printnbr_base(zone->flag & 0xf, 16);
 		ft_putstr_fd(" | 0x",1);
 		ft_printnbr_base((size_t)zone, 16);
 		ft_putstr_fd(" - 0x",1);

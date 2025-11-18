@@ -5,7 +5,6 @@ default rel
 
 section .bss
 	global	g_global
-	extern	puts
 	g_global: resq 1
 
 section .data
@@ -19,23 +18,6 @@ section .text
 
 ; void	*(*ft_malloc)(size_t size)
 ;	rdi
-
-
-ft_tiny:
-
-
-
-
-
-	mov		rax, rdi
-	ret
-
-ft_small:
-
-
-	mov		rax, rdi
-	ret
-
 
 
 ft_malloc:
@@ -250,7 +232,6 @@ ft_malloc:
 	or		[rdx + t_zone.flag], rax
 
 
-	lea		rax, [rel g_global]
-	mov		rax, [rax]
+	mov		rax, rsi	; renvoie la bonne addresse.
 .end:
 	ret
