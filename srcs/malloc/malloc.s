@@ -81,7 +81,6 @@ ft_malloc:
 	mov		r8, -1
 	mov		r9, 0
 	syscall
-
 	pop		rcx	; size zone/block
 	pop		rdi	; size actual block
 
@@ -145,7 +144,7 @@ ft_malloc:
 
 .loop_find_zone:
 
-
+	xor		rbx, rbx
 
 	mov		rax, [rsi + t_zone.flag]
 	and		rax, 2
@@ -212,15 +211,10 @@ ft_malloc:
 	je		.block_found
 	jmp		.no_skip_block
 .skip_block:
-
+	mov		rbx, 1
 .no_skip_block:
 	mov		rsi, [rsi + t_block.next]
 	jmp		.loop_find_block
-
-
-
-
-
 
 .block_found:
 
@@ -244,11 +238,13 @@ ft_malloc:
 	add		rax, 16
 	add		rax, rdi
 
-	mov		qword [rsi + t_block.next], rax
 
+	mov		qword [rsi + t_block.next], rax
+	test	rbx, rbx
+	jnz		.no_flag
 	and		qword [rdx + t_zone.flag], 0xf
 	or		[rdx + t_zone.flag], rax
-
+.no_flag:
 	mov		r9, [rsi + t_block.next]
 	cmp		r9, r8
 	je		.skip_bla

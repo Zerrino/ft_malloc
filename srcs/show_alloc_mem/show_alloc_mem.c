@@ -6,7 +6,7 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 16:12:08 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/18 16:11:20 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/19 18:30:31 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,24 @@ static void	ft_printnbr_base(size_t nbr, size_t base)
 	if (base <= (nbr))
 		ft_printnbr_base((nbr / base), base);
 	ft_putchar_fd((nbr % base) + '0' + (39 * (9 < (nbr % base))), 1);
+}
+
+static uint64_t verify_zero(t_block *block)
+{
+	uint64_t		i;
+	uint64_t		nbr;
+	char	*value;
+
+	i = 0;
+	nbr = block->size;
+	value = (char *)(t_block *)(block+1);
+	while (i < nbr)
+	{
+		if (value[i] != '\0')
+			return (-1);
+		i++;
+	}
+	return (i);
 }
 
 static int	calculate_block(t_zone *zone, t_block *block, t_block *l_block)
@@ -43,8 +61,10 @@ static int	calculate_block(t_zone *zone, t_block *block, t_block *l_block)
 		return (0);
 	if (!l_block)
 		return (1);
+	if (verify_zero(block) != block->size)
+		return (0);
 	size = (size_t)block - (size_t)l_block;
-	return (size - (l_block->size + sizeof(t_block)) == 0);
+	return (size - (l_block->size + sizeof(t_block)) >= 0);
 }
 
 void	show_alloc_mem(void)
