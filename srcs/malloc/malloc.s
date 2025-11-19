@@ -251,5 +251,6 @@ ft_malloc:
 	mov		[r9 + t_block.next], r8
 .skip_bla:
 	mov		rax, rsi	; renvoie la bonne addresse.
+	add		rax, 16
 .end:
 	ret

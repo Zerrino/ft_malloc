@@ -17,7 +17,7 @@ int	main()
 	i = 0;
 	while (i < 0x80)
 	{
-		addr[i] = ft_malloc(16384);
+		addr[i] = ft_malloc(1024);
 		i++;
 	}
 	i = 0;
@@ -26,7 +26,7 @@ int	main()
 		ft_free(addr[i]);
 		i++;
 	}
-	ft_malloc(16384);
+	ft_malloc(1024);
 	show_alloc_mem();
 	essaie = (t_block *)(test+1);
 	return 0;

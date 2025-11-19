@@ -6,7 +6,7 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 13:16:35 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/19 20:06:46 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/19 20:19:16 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void 	ft_free(void *ptr)
 		return ;
 	block = (t_block *)(zone + 1);
 	l_block = 0;
-	while (block && (size_t)block != (size_t)ptr)
+	printf("block addr : %p\n", block);
+	while (block && (size_t)(block + 1) != (size_t)ptr)
 	{
 		l_block = block;
 		block = block->next;
@@ -49,7 +50,7 @@ void 	ft_free(void *ptr)
 	if (zone->flag > ((size_t)block | (zone->flag & 0xf)))
 		zone->flag = (size_t)block | (zone->flag & 0xf);
 	zone->flag &= ~(1 << 1);
-	//ft_bzero(ptr, block->size);
+	ft_bzero(ptr, block->size);
 	block->size = 0;
 	if (block->next && block->next->size == 0)
 	{
@@ -63,6 +64,7 @@ void 	ft_free(void *ptr)
 		block->next = 0;
 	}
 	block = (t_block *)(zone + 1);
+
 	if (block->size == 0 && block->next == 0 && !(zone->flag & 1))
 	{
 		if (!l_zone)
