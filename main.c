@@ -15,20 +15,18 @@ int	main()
 	int		i;
 
 	i = 0;
-	while (i < 10)
+	while (i < 0x80)
 	{
-		addr[i] = ft_malloc(1024);
+		addr[i] = ft_malloc(16384);
 		i++;
 	}
-	ft_free(addr[3]);
-	ft_free(addr[2]);
 	i = 0;
-	i = 0;
-	while (i < 10)
+	while (i < 0x80)
 	{
-		addr[i] = ft_malloc(1024);
+		ft_free(addr[i]);
 		i++;
 	}
+	ft_malloc(16384);
 	show_alloc_mem();
 	essaie = (t_block *)(test+1);
 	return 0;

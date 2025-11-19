@@ -6,7 +6,7 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 13:16:35 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/19 18:24:10 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/19 20:06:46 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 void 	ft_free(void *ptr)
 {
 	t_zone	*zone;
+	t_zone	*l_zone;
 	t_block	*block;
 	t_block	*tmp;
 	t_block	*l_block;
@@ -25,11 +26,13 @@ void 	ft_free(void *ptr)
 	if (((size_t)ptr % 0x10) != 0)
 		return ;
 	zone = g_global;
+	l_zone = 0;
 	while (zone)
 	{
 		total = (zone->size << 7) + (size_t)zone;
 		if ((size_t)ptr > (size_t)zone && (size_t)ptr < total)
 			break ;
+		l_zone = zone;
 		zone = zone->next;
 	}
 	if (!zone)
@@ -46,6 +49,7 @@ void 	ft_free(void *ptr)
 	if (zone->flag > ((size_t)block | (zone->flag & 0xf)))
 		zone->flag = (size_t)block | (zone->flag & 0xf);
 	zone->flag &= ~(1 << 1);
+	//ft_bzero(ptr, block->size);
 	block->size = 0;
 	if (block->next && block->next->size == 0)
 	{
@@ -57,5 +61,18 @@ void 	ft_free(void *ptr)
 	{
 		l_block->next = block->next;
 		block->next = 0;
+	}
+	block = (t_block *)(zone + 1);
+	if (block->size == 0 && block->next == 0 && !(zone->flag & 1))
+	{
+		if (!l_zone)
+		{
+			g_global = zone;
+		}
+		else
+		{
+			l_zone->next = zone->next;
+		}
+		munmap((void *)zone, zone->size << 7);
 	}
 }
