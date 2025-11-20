@@ -6,7 +6,7 @@
 /*   By: zerrino <zerrino@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 16:12:08 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/20 21:59:09 by zerrino          ###   ########.fr       */
+/*   Updated: 2025/11/20 22:00:08 by zerrino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	calculate_block(t_zone *zone, t_block *block, t_block *l_block)
 	if (verify_zero(block) != block->size)
 		return (0);
 	size = (size_t)block - (size_t)l_block;
-	return ((long long)size - (long)(l_block->size + sizeof(t_block)) >= 0);
+	return ((long long)size - (long long)(l_block->size + sizeof(t_block)) >= 0);
 }
 
 void	show_alloc_mem(void)
