@@ -26,11 +26,15 @@ ft_malloc:
 	test	rdi, rdi
 	jz		.end
 	; --- TO-DO ---
-
+	cmp		rdi, SMALL_SIZE
+	jbe		.small_malloc
 	; CHECKER SI SUPERIEUR A SMALL BLOCK
 
-
-
+	add		rdi, 0xfff
+	and		rdi, -0x1000
+	mov		rcx, rdi
+	mov		rsi, rcx
+	jmp		.allocate_zone_big
 	; --- ALIGNEMENT ---
 	;mov		rax, rdi
 	;dec		rax
@@ -41,7 +45,7 @@ ft_malloc:
 	;inc		rdi
 	;shl		rdi, cl
 	; --- ALIGNE --- CL STILL NUMBER
-
+.small_malloc:
 	add		rdi, 15
 	and		rdi, -16
 
@@ -58,7 +62,6 @@ ft_malloc:
 	; --- RCX = 16384 ou RCX = 1024 ---
 
 
-
 	lea		rax, [rel g_global]
 	mov		rax, [rax]
 	test	rax, rax
@@ -66,16 +69,16 @@ ft_malloc:
 
 .allocate_zone:
 
+	mov		rsi, rcx
+	shl		rsi, 7
 
-
+.allocate_zone_big:
 
 	push	rdi
 	push	rcx
 
 	mov		rax, SYS_mmap
 	mov		rdi, 0
-	mov		rsi, rcx
-	shl		rsi, 7
 	mov		rdx, PROT_READ | PROT_WRITE
 	mov		r10, MAP_PRIVATE | MAP_ANONYMOUS
 	mov		r8, -1
@@ -99,6 +102,8 @@ ft_malloc:
 
 	mov		[rsi], rax ; je met son addresse
 	mov		rsi, [rsi]
+	cmp		rdi, SMALL_SIZE
+	ja		.continue
 	or		qword [rsi + t_zone.flag], 1
 
 	jmp		.continue
@@ -130,6 +135,9 @@ ft_malloc:
 	mov		qword [rsi + t_zone.size], rcx
 	mov		qword [rsi + t_zone.next], 0
 
+	cmp		rdi, SMALL_SIZE
+	ja		.end_big
+
 	mov		rax, rcx
 	shl		rax, 7
 	add		rax, rsi
@@ -137,10 +145,12 @@ ft_malloc:
 
 
 
+
 .not_empty:
 
 	lea		rsi, [rel g_global]
 	mov		rsi, [rsi]
+
 
 .loop_find_zone:
 
@@ -253,4 +263,13 @@ ft_malloc:
 	mov		rax, rsi	; renvoie la bonne addresse.
 	add		rax, 16
 .end:
+	ret
+
+
+.end_big:
+	mov		[rsi + t_zone.numb], rsi
+	add		[rsi + t_zone.numb], rdi
+	or		qword [rsi + t_zone.flag], 0x4
+	mov		rax, rsi
+	add		rax, 32
 	ret

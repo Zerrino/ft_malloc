@@ -6,7 +6,7 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 16:12:08 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/19 18:30:31 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/20 13:11:43 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	show_alloc_mem(void)
 		ft_putstr_fd(" |\n" CRESET,1);
 		l_block = 0;
 		block = (t_block *)(zone + 1);
-		while (block && PRINT_BLOCK)
+		while (block && PRINT_BLOCK && ((zone->flag & 0x4) == 0))
 		{
 			ft_putstr_fd("    ", 1);
 			ft_putnbr_fd(i, 1);

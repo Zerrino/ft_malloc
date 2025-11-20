@@ -6,7 +6,7 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 13:16:35 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/19 20:19:16 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/20 13:18:18 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,21 @@ void 	ft_free(void *ptr)
 	t_block	*l_block;
 	size_t	total;
 
-
 	if (((size_t)ptr % 0x10) != 0)
 		return ;
 	zone = g_global;
 	l_zone = 0;
 	while (zone)
 	{
+		if ((size_t)(zone + 1) == (size_t)ptr && (zone->flag & 0x4))
+		{
+			if (!l_zone)
+				g_global = zone->next;
+			else
+				l_zone->next = zone->next;
+			munmap(zone, zone->size);
+			return ;
+		}
 		total = (zone->size << 7) + (size_t)zone;
 		if ((size_t)ptr > (size_t)zone && (size_t)ptr < total)
 			break ;
@@ -39,7 +47,6 @@ void 	ft_free(void *ptr)
 		return ;
 	block = (t_block *)(zone + 1);
 	l_block = 0;
-	printf("block addr : %p\n", block);
 	while (block && (size_t)(block + 1) != (size_t)ptr)
 	{
 		l_block = block;
@@ -68,13 +75,9 @@ void 	ft_free(void *ptr)
 	if (block->size == 0 && block->next == 0 && !(zone->flag & 1))
 	{
 		if (!l_zone)
-		{
-			g_global = zone;
-		}
+			g_global = zone->next;
 		else
-		{
 			l_zone->next = zone->next;
-		}
 		munmap((void *)zone, zone->size << 7);
 	}
 }

@@ -11,17 +11,17 @@ int	main()
 	void	*(*ft_malloc)(size_t size) = dlsym(handle, "ft_malloc");
 	void	(*ft_free)(void *ptr) = dlsym(handle, "ft_free");
 	void	(*show_alloc_mem)(void) = dlsym(handle, "show_alloc_mem");
-	char *addr[0x80];
+	char	*addr[0x80];
 	int		i;
 
 	i = 0;
-	while (i < 0x80)
+	while (i < 0x2)
 	{
-		addr[i] = ft_malloc(1024);
+		addr[i] = ft_malloc(102407);
 		i++;
 	}
 	i = 0;
-	while (i < 0x80)
+	while (i < 0x2)
 	{
 		ft_free(addr[i]);
 		i++;
