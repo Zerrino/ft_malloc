@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   show_alloc_mem.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zerrino <zerrino@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 16:12:08 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/20 13:19:27 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/20 21:59:09 by zerrino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	calculate_block(t_zone *zone, t_block *block, t_block *l_block)
 		if (l_block->size <= 1024)
 			max_size = (size_t)zone + (TINY_SIZE * TINY_NUMBER);
 	}
-	if (max_size < (size_t)block + block->size + sizeof(t_block) + sizeof(t_block))
+	if (max_size < (size_t)block + block->size + sizeof(t_block))
 		return (0);
 	alignment = 2 * sizeof(size_t);
 	if ((((unsigned long) (block)) % alignment) != 0)
@@ -64,21 +64,20 @@ static int	calculate_block(t_zone *zone, t_block *block, t_block *l_block)
 	if (verify_zero(block) != block->size)
 		return (0);
 	size = (size_t)block - (size_t)l_block;
-	return (size - (l_block->size + sizeof(t_block)) >= 0);
+	return ((long long)size - (long)(l_block->size + sizeof(t_block)) >= 0);
 }
 
 void	show_alloc_mem(void)
 {
 	t_zone	*zone;
-	t_zone	*l_zone;
 	t_block	*block;
 	t_block	*l_block;
 	int		i;
 	int		j;
 
+	pthread_mutex_lock(&g_lock);
 	ft_putstr_fd(UWHT REDB "                    SHOW ALLOC MEMORY                    " CRESET "\n", 1);
 	i = 0;
-	l_zone = 0;
 	zone = g_global;
 	while (zone)
 	{
@@ -116,9 +115,9 @@ void	show_alloc_mem(void)
 			l_block = block;
 			block = block->next;
 		}
-		l_zone = zone;
 		zone = zone->next;
 		i++;
 	}
+	pthread_mutex_unlock(&g_lock);
 }
 

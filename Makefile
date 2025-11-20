@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+         #
+#    By: zerrino <zerrino@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/03 12:08:43 by alexafer          #+#    #+#              #
-#    Updated: 2025/11/03 16:13:58 by alexafer         ###   ########.fr        #
+#    Updated: 2025/11/20 21:21:54 by zerrino          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror -fPIC
+CFLAGS      := -Wall -Wextra -Werror -fPIC #-MMD -MP
 SHARED      := -shared
 
 NASM		:= nasm
@@ -53,7 +53,6 @@ $(NAME): $(LIBFT) $(OBJS)
 $(SYMLINK): $(NAME)
 	ln -sf $(NAME) $(SYMLINK)
 
--include $(DEPS)
 
 $(OBJ_DIR)/%.s.o: %.s
 	@mkdir -p $(dir $@)
@@ -83,3 +82,4 @@ Mclean: mclean
 
 .PHONY: all clean fclean mclean re Mclean
 
+-include $(DEPS)

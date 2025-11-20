@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zerrino <zerrino@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:35:46 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/20 13:28:55 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/20 21:23:32 by zerrino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,18 +120,12 @@ typedef struct s_zone
 
 
 
-extern pthread_mutex_t g_lock;
-extern t_zone	*g_global;
+extern pthread_mutex_t	g_lock;
+extern t_zone			*g_global;
 
 void	ft_free(void *ptr);
-
-
 void	*ft_malloc(size_t size);
-
-
 void	*ft_realloc(void *ptr, size_t size);
-
-
 void	show_alloc_mem();
 
 

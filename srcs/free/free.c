@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zerrino <zerrino@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 13:16:35 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/20 14:53:09 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/20 20:54:03 by zerrino          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/malloc.h"
-
 
 void 	ft_free(void *ptr)
 {
@@ -22,8 +21,10 @@ void 	ft_free(void *ptr)
 	t_block	*l_block;
 	size_t	total;
 
+
+	pthread_mutex_lock(&g_lock);
 	if (((size_t)ptr % 0x10) != 0 || !ptr)
-		return ;
+		goto end;
 	zone = g_global;
 	l_zone = 0;
 	while (zone)
@@ -35,7 +36,7 @@ void 	ft_free(void *ptr)
 			else
 				l_zone->next = zone->next;
 			munmap(zone, zone->size);
-			return ;
+			goto end;
 		}
 		total = (zone->size << 7) + (size_t)zone;
 		if ((size_t)ptr > (size_t)zone && (size_t)ptr < total)
@@ -44,7 +45,7 @@ void 	ft_free(void *ptr)
 		zone = zone->next;
 	}
 	if (!zone)
-		return ;
+		goto end;
 	block = (t_block *)(zone + 1);
 	l_block = 0;
 	while (block && (size_t)(block + 1) != (size_t)ptr)
@@ -53,7 +54,7 @@ void 	ft_free(void *ptr)
 		block = block->next;
 	}
 	if (!block)
-		return ;
+		goto end;
 	if (zone->flag > ((size_t)block | (zone->flag & 0xf)))
 		zone->flag = (size_t)block | (zone->flag & 0xf);
 	zone->flag &= ~(1 << 1);
@@ -80,4 +81,6 @@ void 	ft_free(void *ptr)
 			l_zone->next = zone->next;
 		munmap((void *)zone, zone->size << 7);
 	}
+end:
+	pthread_mutex_unlock(&g_lock);
 }

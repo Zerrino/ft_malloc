@@ -5,7 +5,11 @@ default rel
 
 section .bss
 	global	g_global
+	global	g_lock
+	extern	pthread_mutex_lock
+	extern	pthread_mutex_unlock
 	g_global: resq 1
+	g_lock	: resq 5
 
 section .data
 
@@ -21,7 +25,10 @@ section .text
 
 
 ft_malloc:
-
+	PUSH_ALL
+	lea		rdi, [rel g_lock]
+	call	pthread_mutex_lock wrt ..plt
+	POP_ALL
 	xor		rax, rax
 	test	rdi, rdi
 	jz		.end
@@ -266,7 +273,10 @@ ft_malloc:
 	add		rax, 16
 .end:
 
-
+	PUSH_ALL
+	lea		rdi, [rel g_lock]
+	call	pthread_mutex_unlock wrt ..plt
+	POP_ALL
 	ret
 
 
@@ -276,4 +286,8 @@ ft_malloc:
 	or		qword [rsi + t_zone.flag], 0x4
 	mov		rax, rsi
 	add		rax, 32
+	PUSH_ALL
+	lea		rdi, [rel g_lock]
+	call	pthread_mutex_unlock wrt ..plt
+	POP_ALL
 	ret
