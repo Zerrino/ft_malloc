@@ -21,7 +21,6 @@ section .text
 
 
 ft_malloc:
-	PUSH_ALLx
 
 	xor		rax, rax
 	test	rdi, rdi
@@ -155,7 +154,6 @@ ft_malloc:
 
 .loop_find_zone:
 
-	xor		rbx, rbx
 
 	mov		rax, [rsi + t_zone.flag]
 	and		rax, 2
@@ -222,7 +220,7 @@ ft_malloc:
 	je		.block_found
 	jmp		.no_skip_block
 .skip_block:
-	mov		rbx, 1
+	mov		r11, 1
 .no_skip_block:
 	mov		rsi, [rsi + t_block.next]
 	jmp		.loop_find_block
@@ -251,7 +249,7 @@ ft_malloc:
 
 
 	mov		qword [rsi + t_block.next], rax
-	test	rbx, rbx
+	test	r11, r11
 	jnz		.no_flag
 	and		qword [rdx + t_zone.flag], 0xf
 	or		[rdx + t_zone.flag], rax
@@ -266,7 +264,6 @@ ft_malloc:
 .end:
 
 
-	POP_ALLx
 	ret
 
 
@@ -274,5 +271,4 @@ ft_malloc:
 	mov		[rsi + t_zone.numb], rsi
 	add		qword [rsi + t_zone.numb], 32
 	or		qword [rsi + t_zone.flag], 0x4
-	POP_ALLx
 	ret
