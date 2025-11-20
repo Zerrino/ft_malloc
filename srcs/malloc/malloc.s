@@ -29,7 +29,7 @@ ft_malloc:
 	cmp		rdi, SMALL_SIZE
 	jbe		.small_malloc
 	; CHECKER SI SUPERIEUR A SMALL BLOCK
-
+	add		rdi, 32
 	add		rdi, 0xfff
 	and		rdi, -0x1000
 	mov		rcx, rdi
@@ -154,6 +154,9 @@ ft_malloc:
 
 .loop_find_zone:
 
+	mov		rax, [rsi + t_zone.flag]
+	and		rax, 4
+	jne		.skip_zone
 
 	mov		rax, [rsi + t_zone.flag]
 	and		rax, 2
@@ -269,6 +272,8 @@ ft_malloc:
 
 .end_big:
 	mov		[rsi + t_zone.numb], rsi
-	add		qword [rsi + t_zone.numb], 32
+	add		[rsi + t_zone.numb], rdi
 	or		qword [rsi + t_zone.flag], 0x4
+	mov		rax, rsi
+	add		rax, 32
 	ret

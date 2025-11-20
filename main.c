@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include "./includes/malloc.h"
 #include <dlfcn.h>
+#include <string.h>
 
+#define M (1024 * 1024)
 
 int	main()
 {
@@ -15,18 +17,9 @@ int	main()
 	int		i;
 
 	i = 0;
-	addr[0] = ft_malloc(715);
+	addr[0] = ft_malloc(16*M);
 	printf("addr : %p\n", addr[0]);
-	while (i < 715)
-	{
-		if (addr[0][i] != 0)
-		{
-			printf("test!\n");
-		}
-		addr[0][i] = 'a';
-		i++;
-	}
 	show_alloc_mem();
-	essaie = (t_block *)(test+1);
+	addr[1] = ft_malloc(16*M);
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:52:08 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/19 20:03:00 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/20 15:02:40 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,21 @@
 
 void	*ft_realloc(void *ptr, size_t size)
 {
-	void		*new_alloc;
-	uint64_t	size_block;
+	void	*new_ptr;
 
-	new_alloc = 0;
-	if (!ptr)
-		return (ft_malloc(size));
-	if (!size)
-	{
-		ft_free(ptr);
-		return (0);
-	}
-	new_alloc = ft_malloc(size);
-	if (!new_alloc)
-		return (0);
-	size_block = ((t_block *)(ptr - sizeof(t_block)))->size;
-	if (size_block > size)
-		ft_memcpy(new_alloc, ptr, size);
-	else
-		ft_memcpy(new_alloc, ptr, size_block);
-	return (new_alloc);
+	new_ptr = ft_malloc(size);
+	if (((size_t)ptr % 0x10) != 0 || !ptr)
+		return (new_ptr);
+
+
+
+
+
+
+
+
+
+
+	return (new_ptr);
 }
 
