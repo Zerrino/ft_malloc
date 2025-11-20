@@ -15,18 +15,17 @@ int	main()
 	int		i;
 
 	i = 0;
-	while (i < 0x2)
+	addr[0] = ft_malloc(715);
+	printf("addr : %p\n", addr[0]);
+	while (i < 715)
 	{
-		addr[i] = ft_malloc(102407);
+		if (addr[0][i] != 0)
+		{
+			printf("test!\n");
+		}
+		addr[0][i] = 'a';
 		i++;
 	}
-	i = 0;
-	while (i < 0x2)
-	{
-		ft_free(addr[i]);
-		i++;
-	}
-	ft_malloc(1024);
 	show_alloc_mem();
 	essaie = (t_block *)(test+1);
 	return 0;

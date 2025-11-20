@@ -6,7 +6,7 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 13:16:35 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/20 13:18:18 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/20 13:42:32 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void 	ft_free(void *ptr)
 	t_block	*l_block;
 	size_t	total;
 
-	if (((size_t)ptr % 0x10) != 0)
+	write(1, "test\n", 5);
+	if (((size_t)ptr % 0x10) != 0 || !ptr)
 		return ;
 	zone = g_global;
 	l_zone = 0;

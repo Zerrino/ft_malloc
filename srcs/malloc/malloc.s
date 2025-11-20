@@ -21,6 +21,7 @@ section .text
 
 
 ft_malloc:
+	PUSH_ALLx
 
 	xor		rax, rax
 	test	rdi, rdi
@@ -263,13 +264,15 @@ ft_malloc:
 	mov		rax, rsi	; renvoie la bonne addresse.
 	add		rax, 16
 .end:
+
+
+	POP_ALLx
 	ret
 
 
 .end_big:
 	mov		[rsi + t_zone.numb], rsi
-	add		[rsi + t_zone.numb], rdi
+	add		qword [rsi + t_zone.numb], 32
 	or		qword [rsi + t_zone.flag], 0x4
-	mov		rax, rsi
-	add		rax, 32
+	POP_ALLx
 	ret
