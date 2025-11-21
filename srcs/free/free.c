@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zerrino <zerrino@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 13:16:35 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/20 20:54:03 by zerrino          ###   ########.fr       */
+/*   Updated: 2025/11/21 15:49:59 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void 	ft_free(void *ptr)
 		block->next = 0;
 	}
 	block = (t_block *)(zone + 1);
-
 	if (block->size == 0 && block->next == 0 && !(zone->flag & 1))
 	{
 		if (!l_zone)

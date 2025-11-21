@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zerrino <zerrino@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:35:46 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/20 21:23:32 by zerrino          ###   ########.fr       */
+/*   Updated: 2025/11/21 15:58:08 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,8 @@ void	ft_free(void *ptr);
 void	*ft_malloc(size_t size);
 void	*ft_realloc(void *ptr, size_t size);
 void	show_alloc_mem();
-
+void	hexdump_mem(void *ptr);
+void	ft_printnbr_base(size_t nbr, size_t base);
 
 void *malloc(size_t)			__attribute__((visibility("default")));
 void  free(void *)				__attribute__((visibility("default")));

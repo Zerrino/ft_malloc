@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   show_alloc_mem.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zerrino <zerrino@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 16:12:08 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/20 22:00:08 by zerrino          ###   ########.fr       */
+/*   Updated: 2025/11/21 15:54:54 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/malloc.h"
 
-static void	ft_printnbr_base(size_t nbr, size_t base)
+void	ft_printnbr_base(size_t nbr, size_t base)
 {
 	if (base <= (nbr))
 		ft_printnbr_base((nbr / base), base);

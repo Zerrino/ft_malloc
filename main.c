@@ -9,6 +9,7 @@
 void *(*ft_malloc)(size_t size);
 void (*ft_free)(void *ptr);
 void (*show_alloc_mem)(void);
+void (*hexdump_mem)(void *ptr);
 
 void *thread_worker(void *arg)
 {
@@ -27,16 +28,18 @@ int	main()
     ft_malloc = dlsym(handle, "ft_malloc");
     ft_free = dlsym(handle, "ft_free");
     show_alloc_mem = dlsym(handle, "show_alloc_mem");
+    hexdump_mem = dlsym(handle, "hexdump_mem");
     char *addr[0x80];
     int i = 0;
-    ft_malloc(1000);
-    ft_malloc(5000);
-    while (i < 0x80)
+    while (i < 2)
     {
-        ft_malloc(1024);
+        addr[i] = ft_malloc(0x105);
         i++;
     }
-    show_alloc_mem();
+    strcpy(addr[0], "salut comment ca va?");
+    strcpy((addr[0]+70), "salut comment ca va?");
+    hexdump_mem(addr[0]);
+    //show_alloc_mem();
 
 
     return 0;
