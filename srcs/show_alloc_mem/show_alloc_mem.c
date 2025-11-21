@@ -6,11 +6,57 @@
 /*   By: alexafer <alexafer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 16:12:08 by alexafer          #+#    #+#             */
-/*   Updated: 2025/11/21 15:54:54 by alexafer         ###   ########.fr       */
+/*   Updated: 2025/11/21 18:23:18 by alexafer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/malloc.h"
+
+int	get_nbr_c(size_t nbr, size_t base)
+{
+	size_t	i;
+
+	i = 1;
+	while (nbr >= base)
+	{
+		nbr /= base;
+		i++;
+	}
+	return (i);
+}
+
+void	print_nbr_format_f(size_t nbr, size_t base, int padding)
+{
+	int 	size;
+	int	pad;
+
+	size = get_nbr_c(nbr, base);
+	pad = padding - size;
+	while (pad)
+	{
+		ft_putchar_fd(' ', 1);
+		pad--;
+	}
+	ft_printnbr_base(nbr, base);
+}
+
+void	print_nbr_format_b(size_t nbr, size_t base, int padding)
+{
+	int 	size;
+	int	pad;
+
+	size = get_nbr_c(nbr, base);
+	pad = padding - size;
+	ft_printnbr_base(nbr, base);
+	while (pad)
+	{
+		ft_putchar_fd(' ', 1);
+		pad--;
+	}
+
+}
+
+
 
 void	ft_printnbr_base(size_t nbr, size_t base)
 {
@@ -76,16 +122,18 @@ void	show_alloc_mem(void)
 	int		j;
 
 	pthread_mutex_lock(&g_lock);
-	ft_putstr_fd(UWHT REDB "                    SHOW ALLOC MEMORY                    " CRESET "\n", 1);
+	ft_putstr_fd(UWHT REDB "                           SHOW ALLOC MEMORY                           " CRESET "\n", 1);
 	i = 0;
 	zone = g_global;
 	while (zone)
 	{
 		j = 0;
 		ft_putstr_fd(UWHT "|  ", 1);
-		ft_putnbr_fd(i, 1);
+		print_nbr_format_f(i, 10, 4);
+		//ft_putnbr_fd(i, 1);
 		ft_putstr_fd(". Zone : ",1);
-		ft_putnbr_fd(zone->size, 1);
+		print_nbr_format_f(zone->size, 10, 17);
+		//ft_putnbr_fd(zone->size, 1);
 		ft_putstr_fd(" | 0x",1);
 		ft_printnbr_base(zone->flag, 16);
 		ft_putstr_fd(" | 0x",1);
@@ -98,12 +146,15 @@ void	show_alloc_mem(void)
 		while (block && PRINT_BLOCK && ((zone->flag & 0x4) == 0))
 		{
 			ft_putstr_fd("    ", 1);
-			ft_putnbr_fd(i, 1);
+			print_nbr_format_f(i, 10, 4);
+			//ft_putnbr_fd(i, 1);
 			ft_putstr_fd(".", 1);
-			ft_putnbr_fd(j, 1);
-			ft_putstr_fd(". Block : ", 1);
-			ft_putnbr_fd(block->size, 1);
-			ft_putstr_fd("\t\t- ",1);
+			print_nbr_format_b(j, 10, 4);
+			//ft_putnbr_fd(j, 1);
+			ft_putstr_fd("  Block : ", 1);
+			print_nbr_format_f(block->size, 10, 10);
+			//ft_putnbr_fd(block->size, 1);
+			ft_putstr_fd(" |\t- ",1);
 			if (calculate_block(zone, block, l_block))
 				ft_putstr_fd(BGRN, 1);
 			else
@@ -120,4 +171,3 @@ void	show_alloc_mem(void)
 	}
 	pthread_mutex_unlock(&g_lock);
 }
-
